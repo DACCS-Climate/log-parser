@@ -276,10 +276,21 @@ The docker images also contain all extensions by default and they can be run by 
 if you'd like to run the `prometheus` extension:
 
 ```sh
-docker run -it --rm --entrypoint marbleclimate/log-parser:latest --help
+docker run -it --rm --entrypoint log-parser-prometheus marbleclimate/log-parser:latest --help
 ```
 
 The entrypoint for all extensions is `log-parser-<name>` where `<name>` is the name of the extension.
+
+All parsers and logs must be visible to the docker container. This can be accomplished by mounting them as volumes.
+For example, if you have some parsers in a directory named `./my-parsers` and logs being written to a directory named
+`./my-logs` you can run:
+
+```sh
+docker run -it --rm -v './my-parsers:/parsers:ro' -v './my-logs:/logs:ro' marbleclimate/log-parser:latest --parsers /parsers 
+```
+
+Note that in the example above, the parsers refer to the location of the log files in the container (`/logs`), not on the
+host (`./my-logs`).
 
 ## Development
 
