@@ -258,12 +258,12 @@ where the code for this extension is located.
 
 ## Docker
 
-Docker images for this project can be found at https://github.com/DACCS-Climate/log-parser/pkgs/container/log-parser
+Docker images for this project can be found at https://hub.docker.com/r/marbleclimate/log-parser
 
 To run the log parser with Docker:
 
 ```sh
-docker run -it --rm ghcr.io/DACCS-Climate/log-parser:latest --help
+docker run -it --rm marbleclimate/log-parser:latest --help
 ```
 
 This is the equivalent of installing the Log Parser locally and running:
@@ -276,7 +276,7 @@ The docker images also contain all extensions by default and they can be run by 
 if you'd like to run the `prometheus` extension:
 
 ```sh
-docker run -it --rm --entrypoint log-parser-prometheus ghcr.io/DACCS-Climate/log-parser:latest --help
+docker run -it --rm --entrypoint marbleclimate/log-parser:latest --help
 ```
 
 The entrypoint for all extensions is `log-parser-<name>` where `<name>` is the name of the extension.
