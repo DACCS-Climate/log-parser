@@ -40,6 +40,8 @@ async def _check_file_state(log_io: AsyncFile[str]) -> _FileState:
         return _FileState.DELETED
     file_stat = os.stat(log_io.fileno())
     if same_name_file_stat == file_stat:
+        if not log_io.seekable():
+            return _FileState.NOCHANGE
         if await log_io.tell() > file_stat.st_size:
             return _FileState.TRUNCATED
         else:
@@ -79,7 +81,7 @@ async def track_file(
         log_io = await open_file(log_file)
         logger.debug(f"file '{log_file}' opened for reading")
         try:
-            if tail:
+            if tail and log_io.seekable():
                 await log_io.seek(0, os.SEEK_END)
             while True:
                 file_state = await _check_file_state(log_io)
