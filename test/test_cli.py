@@ -48,14 +48,14 @@ class TestRun:
     def test_load_parser_from_dir_single_log_file(self, mocked_parse, parse_kwargs, all_kwargs, parser_files):
         parser = next(parser_files)
         config = {"example_file": [1]}
-        parser.write_text(f"{all_kwargs["config_variable"]}={config}")
+        parser.write_text(f"{all_kwargs['config_variable']}={config}")
         log_parser.cli.run(**all_kwargs)
         mocked_parse.assert_called_once_with(config, **parse_kwargs)
 
     def test_load_parser_from_dir_multi_log_file(self, mocked_parse, parse_kwargs, all_kwargs, parser_files):
         parser = next(parser_files)
         config = {"example_file": [1], "example_file2": [1]}
-        parser.write_text(f"{all_kwargs["config_variable"]}={config}")
+        parser.write_text(f"{all_kwargs['config_variable']}={config}")
         log_parser.cli.run(**all_kwargs)
         mocked_parse.assert_called_once_with(config, **parse_kwargs)
 
@@ -63,7 +63,7 @@ class TestRun:
         n_parsers = 10
         for i, parser in enumerate(itertools.islice(parser_files, n_parsers)):
             config = {"example_file": [i]}
-            parser.write_text(f"{all_kwargs["config_variable"]}={config}")
+            parser.write_text(f"{all_kwargs['config_variable']}={config}")
         log_parser.cli.run(**all_kwargs)
         assert len(mocked_parse.call_args_list) == 1
         configs = mocked_parse.call_args.kwargs.get("configs", mocked_parse.call_args.args[0])
@@ -75,7 +75,7 @@ class TestRun:
         for i, parser in enumerate(itertools.islice(parser_files, n_parsers)):
             config = {f"example_file_{i}": [i]}
             expected.update(config)
-            parser.write_text(f"{all_kwargs["config_variable"]}={config}")
+            parser.write_text(f"{all_kwargs['config_variable']}={config}")
         log_parser.cli.run(**all_kwargs)
         assert len(mocked_parse.call_args_list) == 1
         configs = mocked_parse.call_args.kwargs.get("configs", mocked_parse.call_args.args[0])
@@ -86,7 +86,7 @@ class TestRun:
         parsers = []
         for i, parser in enumerate(itertools.islice(parser_files, n_parsers)):
             config = {"example_file": [i]}
-            parser.write_text(f"{all_kwargs["config_variable"]}={config}")
+            parser.write_text(f"{all_kwargs['config_variable']}={config}")
             parsers.append(parser)
         all_kwargs["parsers"] = parsers
         log_parser.cli.run(**all_kwargs)
@@ -105,7 +105,7 @@ class TestRun:
     def test_passes_poll_delay(self, mocked_parse, parse_kwargs, all_kwargs, parser_files):
         parser = next(parser_files)
         config = {}
-        parser.write_text(f"{all_kwargs["config_variable"]}={config}")
+        parser.write_text(f"{all_kwargs['config_variable']}={config}")
         all_kwargs["poll_delay"] += 1
         parse_kwargs["poll_delay"] += 1
         log_parser.cli.run(**all_kwargs)
@@ -114,7 +114,7 @@ class TestRun:
     def test_passes_tail(self, mocked_parse, all_kwargs, parse_kwargs, parser_files):
         parser = next(parser_files)
         config = {}
-        parser.write_text(f"{all_kwargs["config_variable"]}={config}")
+        parser.write_text(f"{all_kwargs['config_variable']}={config}")
         all_kwargs["tail"] = not all_kwargs["tail"]
         parse_kwargs["tail"] = not parse_kwargs["tail"]
         log_parser.cli.run(**all_kwargs)
@@ -123,7 +123,7 @@ class TestRun:
     def test_passes_timeout(self, mocked_parse, all_kwargs, parse_kwargs, parser_files):
         parser = next(parser_files)
         config = {}
-        parser.write_text(f"{all_kwargs["config_variable"]}={config}")
+        parser.write_text(f"{all_kwargs['config_variable']}={config}")
         all_kwargs["timeout"] = 1
         parse_kwargs["timeout"] = 1
         log_parser.cli.run(**all_kwargs)
@@ -132,7 +132,7 @@ class TestRun:
     def test_catches_timeout(self, mocked_parse, all_kwargs, parse_kwargs, parser_files):
         parser = next(parser_files)
         config = {}
-        parser.write_text(f"{all_kwargs["config_variable"]}={config}")
+        parser.write_text(f"{all_kwargs['config_variable']}={config}")
         mocked_parse.side_effect = TimeoutError("test")
         log_parser.cli.run(**all_kwargs)
         mocked_parse.assert_called_once_with(config, **parse_kwargs)
