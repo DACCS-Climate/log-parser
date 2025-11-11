@@ -73,7 +73,7 @@ asyncio.run(my_coroutine())
 
 `track_file` has the following parameters:
 
-- `log_file`: path to a log file to track 
+- `log_file`: path to a log file to track. This can be a regular file, stream (e.g. stdout/stderr), or named FIFO pipe.
 - `line_parsers` a list of [line parsers](#what-is-a-line-parser)
 - `poll_delay`: (see [parameters](#track-parameters) for `track` and `track_async`)
 - `tail`: (see [parameters](#track-parameters) for `track` and `track_async`)
@@ -237,7 +237,8 @@ these scenarios in the following ways:
 
 #### How do I track logs that haven't been written to a file?
 
-Log Parser currently only supports reading logs from files. We'd like to support other log sources in the future though.
+Log Parser currently only supports reading logs from files and named pipes (such as the stdout and stderr streams). 
+We'd like to support other log sources in the future though.
 Feel free to [contribute](#development) to this project if you want to speed up support for this feature.
 
 ## Extensions

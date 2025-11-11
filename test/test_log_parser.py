@@ -2,6 +2,7 @@ import abc
 import asyncio
 import inspect
 import itertools
+import os
 from contextlib import asynccontextmanager
 
 import anyio
@@ -26,6 +27,12 @@ class TestTrackFile:
     async def tmp_log(self, tmp_path):
         log_file = anyio.Path(tmp_path / "test.log")
         await log_file.touch()
+        return log_file
+
+    @pytest.fixture
+    async def tmp_log_pipe(self, tmp_path):
+        log_file = anyio.Path(tmp_path / "test.log")
+        os.mkfifo(log_file)
         return log_file
 
     @staticmethod
@@ -161,6 +168,14 @@ class TestTrackFile:
                 str(tmp_log), [self.basic_line_parser_async(output), self.basic_line_parser(output)]
             )
         assert output == text * 2
+
+    @pytest.mark.parametrize("text", [["test 123"], ["test 123", "test 456"]])
+    async def test_pipe_contains_lines(self, tmp_log_pipe, text):
+        output = []
+        async with silent_timeout(1.1), asyncio.TaskGroup() as tg:
+            tg.create_task(log_parser.track_file(str(tmp_log_pipe), [self.basic_line_parser(output)]))
+            tg.create_task(self.delayed_write(tmp_log_pipe, "\n".join(text), 0.1))
+        assert output == text
 
 
 class _TrackTests(abc.ABC):
