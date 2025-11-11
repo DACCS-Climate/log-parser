@@ -169,16 +169,8 @@ class TestTrackFile:
             )
         assert output == text * 2
 
-    async def test_pipe_contains_line(self, tmp_log_pipe):
-        text = ["test 123"]
-        output = []
-        async with silent_timeout(1.1), asyncio.TaskGroup() as tg:
-            tg.create_task(log_parser.track_file(str(tmp_log_pipe), [self.basic_line_parser(output)]))
-            tg.create_task(self.delayed_write(tmp_log_pipe, "\n".join(text), 0.1))
-        assert output == text
-
-    async def test_pipe_contains_lines(self, tmp_log_pipe):
-        text = ["test 123", "test 456"]
+    @pytest.mark.parametrize("text", [["test 123"], ["test 123", "test 456"]])
+    async def test_pipe_contains_lines(self, tmp_log_pipe, text):
         output = []
         async with silent_timeout(1.1), asyncio.TaskGroup() as tg:
             tg.create_task(log_parser.track_file(str(tmp_log_pipe), [self.basic_line_parser(output)]))
