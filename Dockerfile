@@ -11,7 +11,7 @@ RUN python -m pip install /log_parser $(for imp in ${EXTENSIONS}; do echo "-r /l
 RUN mkdir /log-parser-bin && \
     for imp in ${EXTENSIONS}; do \
         echo '#!/bin/sh' > "/log-parser-bin/log-parser-${imp}" && \
-        echo "python /log_parser/extensions/${imp}/cli.py" '"$@"' >> "/log-parser-bin/log-parser-${imp}" && \
+        echo "exec python /log_parser/extensions/${imp}/cli.py" '"$@"' >> "/log-parser-bin/log-parser-${imp}" && \
         chmod u+x "/log-parser-bin/log-parser-${imp}"; \
     done
 
