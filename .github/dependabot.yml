@@ -1,0 +1,39 @@
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /.github/workflows
+    schedule:
+      interval: "quarterly"
+    cooldown:
+      default-days: 7
+    groups:
+      actions-updates:
+        patterns:
+          - "*"
+
+  - package-ecosystem: pip
+    directories:
+      - /
+    schedule:
+      interval: "quarterly"
+    cooldown:
+      default-days: 7
+  
+  - package-ecosystem: "pre-commit"
+    directory: "/"
+    schedule:
+      interval: "quarterly"
+    cooldown:
+      default-days: 7
+    groups:
+      pre-commit-updates:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "quarterly"
+    cooldown:
+      default-days: 7
