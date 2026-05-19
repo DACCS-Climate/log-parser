@@ -7,6 +7,10 @@ updates:
       interval: "quarterly"
     cooldown:
       default-days: 7
+    groups:
+      actions-updates:
+        patterns:
+          - "*"
 
   - package-ecosystem: pip
     directories:
@@ -22,6 +26,10 @@ updates:
       interval: "quarterly"
     cooldown:
       default-days: 7
+    groups:
+      pre-commit-updates:
+        patterns:
+          - "*"
 
   - package-ecosystem: "docker"
     directory: "/"
