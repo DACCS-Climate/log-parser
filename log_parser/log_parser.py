@@ -1,4 +1,5 @@
 import asyncio
+import inspect
 import logging
 import os
 from collections.abc import Callable
@@ -88,7 +89,7 @@ async def track_file(
                 if file_state == _FileState.NOCHANGE:
                     async for line in log_io:
                         for line_parser in line_parsers:
-                            if asyncio.iscoroutinefunction(line_parser):
+                            if inspect.iscoroutinefunction(line_parser):
                                 await line_parser(line)
                             else:
                                 line_parser(line)
