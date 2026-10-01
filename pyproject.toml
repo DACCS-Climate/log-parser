@@ -35,6 +35,7 @@ packages = ["log_parser"]
 [tool.ruff]
 line-length = 120
 target-version = "py313"
+extend-exclude = ["*.md"]
 
 [tool.ruff.format]
 docstring-code-format = true
